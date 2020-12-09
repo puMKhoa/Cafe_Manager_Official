@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import {Container} from '../../containers/Login'
-import axios from 'axios';
+// import axios from 'axios';
 
 
 const Login = () => {
@@ -12,7 +12,6 @@ const Login = () => {
         checkUser() // Fetch games when component is mounted
       }, [])
     //Control input value
-    
     const [user,setUser] = useState('');
     const onChangeUser = (e) => {setUser(e.target.value)}
     const [password,setPassword] = useState('');
@@ -26,29 +25,24 @@ const Login = () => {
               },
               body: JSON.stringify({
                 user,
-                password // Use your own property name / key
+                password 
               }),
             })
               .then((res) => res.json())
               .then((result) => setData(result))
             //   .then((info) => console.log(info))
               .catch((err) => console.log('error'))
-          
-            // let userLogin = data.filter(item => item.username === user && item.password === password);
-            // if(userLogin.length > 0) {
-            //     window.location.replace(`http://localhost:3000/${user}${password}/`);
-            // }
-            // else
-            //     window.alert("user/password wrong!");
     };
     const handleChange = (event) => {
+      preventdefault(); 
         checkUser();
         console.log(data);
         // console.log("da nhan nut");
         try{
             if(data.status === true)
                 // console.log("dang nhap thanh cong");
-                window.location.replace(`http://localhost:3000/${user}${password}/employees`);
+                 console.log('chao than');
+                // window.location.replace(`http://localhost:3000/${user}${password}/employees`);
         }catch(e){
                 window.alert("user/password wrong!");
         }
