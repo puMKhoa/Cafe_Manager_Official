@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const app = express();
 const con = require('./connection')
 const cors = require('cors');
-
+const User_employee = require('./Router/User_employee')
 const logger = require("morgan");
 
 // middleware
@@ -18,7 +18,7 @@ app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
-
+app.use('/data',User_employee);
 // GET API
 app.get('/login', function (req, res) {
     console.log("Inside Home Login");
