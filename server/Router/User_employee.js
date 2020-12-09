@@ -3,7 +3,7 @@ var router = express.Router();
 const con = require('../connection');
 
 router.get('/User_employee' , (req, res)=>{
-    var sql = "SELECT * FROM businessmanagementdb.employees";
+    var sql = "SELECT * FROM BusinessManagementDB.Employees";
     con.query(sql, (err ,  results)=>{
         if (err) throw err;
         res.send(results);
@@ -25,7 +25,7 @@ router.post('/User_employee/insert' , (req, res)=>{
             con.query(sql,[Insert_employees.IN_first_name , Insert_employees.IN_last_name, Insert_employees.IN_address,Insert_employees.IN_birth_date,Insert_employees.IN_roles,Insert_employees.IN_salary_day], 
                 (err ,  results)=>{
                 if (err){
-                    res.send({message:"them khong thanh cong"})
+                    res.send(err.message)
                 }
                 else{
                     res.send({message:"them thong tin thanh cong"})
@@ -55,15 +55,20 @@ router.post('/User_employee/Delete' , (req, res)=>{
         res.send({message:"khong tim thay id hoac id da duoc xoa"})
     }
 })
+
 router.post('/User_employee/Update' , (req, res)=>{
     try {
         const UPdate_Employee = {
-            row_update: req.body.row,
-            UP_Employee: req.body.row_value,
-            UP_id: req.body.id
+            UP_id: req.body.id,
+            UP_first_name: req.body.first_name,
+            UP_last_name: req.body.last_name,
+            UP_address: req.body.address,
+            UP_birth_date: req.body.birth_date,
+            UP_roles: req.body.role,
+            UP_salary_day: req.body.salary_day
         }
-        var sql = "update `Employees` set "+"`" + UPdate_Employee.row_update + "`"+ "=? where id=?";
-        con.query(sql , [UPdate_Employee.UP_Employee,UPdate_Employee.UP_id], (err, results)=>{
+        var sql = "call UP_value(?,?,?,?,?,?,?)";
+        con.query(sql , [UPdate_Employee.id , UPdate_Employee.UP_first_name,UPdate_Employee.UP_last_name ,UPdate_Employee.UP_address,UPdate_Employee.UP_birth_date,UPdate_Employee.UP_roles,UPdate_Employee.UP_salary_day], (err, results)=>{
             if (err) res.send({message : "cap nhat khong thanh cong"});
             else
             {

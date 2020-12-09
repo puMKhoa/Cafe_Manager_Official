@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -24,6 +24,10 @@ import Button from '@material-ui/core/Button';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import UpdateIcon from '@material-ui/icons/Update';
 import './style.css'
+import axios from 'axios';
+import React, {useEffect, useState} from 'react'
+import AlertSuccess from '../../components/AlertSuccess';
+
 // Set style for icon action
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,16 +52,19 @@ const Employees = () => {
 
     // Hook set data for employee
     const [rows, setRows] = useState([
-        {
-            id: '01',
-            firstname: 'John',
-            lastname: 'Smith',
-            birthdate: '12/06/2000',
-            adress: 'Ap day so xa thanh quoi huyen my xuyen tinh soc trang',
-            salarydaily: '100'
-        }
     ]);
-
+    useEffect(() => {
+        async function getData() {
+          try {
+            const response = await axios.get('http://localhost:3001/data/User_employee');
+            setRows(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        getData();
+      }, []);
+    
     // Hook and function set show and hide Icon Action
     const [openSpeedDial, setOpenSpeedDial] = useState(false);
     const handleOpenSpeedDial = () => {
@@ -116,6 +123,9 @@ const Employees = () => {
       // First name
     const [firstName, setFirstName] = useState('');
     const onChangeFirstName = (e) => {setFirstName(e.target.value);};
+      //role
+    const [role, setRole] = useState('');
+    const onChangeRole = (e) => {setRole(e.target.value);};
       // Last name
     const [lastName, setLastName] = useState('');
     const onChangeLastName = (e) => {setLastName(e.target.value);};
@@ -130,15 +140,88 @@ const Employees = () => {
     const onChangeSalaryDaily = (e) => {setSalaryDaily(e.target.value);};
       // ID
     const [id, setId] = useState('');
-    const onchangeId = (e) => {setId(e.target.value);};
-    
+    const onChangeId = (e) => {setId(e.target.value);};
+  
+  // Alert
+      const [alert, setAlert] = useState(false);
    // Onclick submit action 
       // Add event
-    const handleActionAdd = () => {window.alert("add")}
+    const handleActionAdd = () => {
+      if(firstName && role && lastName && birthDate && address && salaryDaily)
+      {
+        async function getData() {
+            try {
+              const response = await axios.post('http://localhost:3001/data/User_employee/insert', {
+                first_name: firstName ,
+                last_name: lastName ,
+                birth_date: birthDate,
+                address: address,
+                role: role,
+                salary_day : salaryDaily
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+          window.location.reload();
+        } else {
+          window.alert("Invalid parameters");
+        }
+    }
       // Delete event
-    const handleActionDelete = () => {window.alert("delete")}
+    const handleActionDelete = () => {
+        async function getData() {
+            try {
+              const response = await axios.post('http://localhost:3001/data/User_employee/Delete', {
+                id: id
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+          window.location.reload();
+          setAlert(true);
+    }
       // Update event
-    const handleActionUpdate = () => {window.alert("update")}
+    const handleActionUpdate = () => {
+        async function getData() {
+            try {
+              const response = await axios.post('http://localhost:3001/data/User_employee/Update', {
+                id: id,
+                first_name: firstName ,
+                last_name: lastName ,
+                birth_date: birthDate,
+                address: address,
+                role: role,
+                salary_day : salaryDaily
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+          // window.location.reload();
+  }
 
     // render
     return (
@@ -158,6 +241,7 @@ const Employees = () => {
                                 <TableCell align="center">Last Name</TableCell>
                                 <TableCell align="center">Birth Date</TableCell>
                                 <TableCell align="center">Adress</TableCell>
+                                <TableCell align="center">Role</TableCell>
                                 <TableCell align="center">Salary Daily ($)</TableCell>
                             </TableRow>
                         </TableHead>
@@ -166,11 +250,12 @@ const Employees = () => {
                             {rows.map((row) => (
                                 <TableRow key={row.id}>
                                     <TableCell align="center">{row.id}</TableCell>
-                                    <TableCell align="center">{row.firstname}</TableCell>
-                                    <TableCell align="center">{row.lastname}</TableCell>
-                                    <TableCell align="center">{row.birthdate}</TableCell>
-                                    <TableCell align="center">{row.adress}</TableCell>
-                                    <TableCell align="center">{row.salarydaily}</TableCell>
+                                    <TableCell align="center">{row.first_name}</TableCell>
+                                    <TableCell align="center">{row.last_name}</TableCell>
+                                    <TableCell align="center">{row.birth_date}</TableCell>
+                                    <TableCell align="center">{row.address}</TableCell>
+                                    <TableCell align="center">{row.role}</TableCell>
+                                    <TableCell align="center">{row.salary_day}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -267,6 +352,14 @@ const Employees = () => {
                             fullWidth
                         />
                         <TextField
+                            onChange={onChangeRole}
+                            required
+                            margin="dense"
+                            id="role"
+                            label="Role"
+                            fullWidth
+                        />
+                        <TextField
                             onChange={onChangeSalaryDaily}
                             required
                             margin="dense"
@@ -295,7 +388,7 @@ const Employees = () => {
                         occasionally.
                     </DialogContentText>
                     <TextField
-                        // onChange={onChangeFirstName}
+                        onChange={onChangeId}
                         required
                         autoFocus
                         margin="dense"
@@ -324,7 +417,7 @@ const Employees = () => {
                         occasionally.
                     </DialogContentText>
                     <TextField
-                            // onChange={onChangeFirstName}
+                            onChange={onChangeId}
                             required
                             autoFocus
                             margin="dense"
@@ -385,8 +478,7 @@ const Employees = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            {/* Alert check form is empty? */}
-            
+            {alert ? setTimeout(<AlertSuccess />, 3000) : null}
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import {Container} from '../../containers/Login'
-// import axios from 'axios';
+import axios from 'axios';
 
 
 const Login = () => {
@@ -34,7 +34,6 @@ const Login = () => {
               .catch((err) => console.log('error'))
     };
     const handleChange = (event) => {
-      preventdefault(); 
         checkUser();
         console.log(data);
         // console.log("da nhan nut");
