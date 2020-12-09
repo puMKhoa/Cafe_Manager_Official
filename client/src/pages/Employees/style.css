@@ -1,0 +1,7 @@
+.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter{
+    font-weight: bold !important;
+}
+
+.MuiSpeedDialAction-staticTooltipLabel {
+    width: max-content;
+}

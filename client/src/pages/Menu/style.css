@@ -1,0 +1,17 @@
+.MuiCardActions-root.MuiCardActions-spacing {
+    justify-content: space-around !important;
+}
+
+.makeStyles-content {
+    display: flex !important;
+    justify-content: space-around;
+    align-content: space-around;
+
+}
+
+.makeStyles-root {
+    min-width: 300px;
+    max-width: 345px;
+    text-align: center;
+}
+
