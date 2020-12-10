@@ -168,6 +168,7 @@ const Employees = () => {
             }
           }
           getData();
+          handleCloseDialogAdd();
           window.location.reload();
         } else {
           window.alert("Invalid parameters");
@@ -191,23 +192,23 @@ const Employees = () => {
             }
           }
           getData();
+          handleCloseDialogDelete();
           window.location.reload();
     }
       // Update event
-    const handleActionUpdate = () => {
+    const [openDialogFormUpdate, setOpenDialogFormUpdate] = useState(false);
+    const handleCloseDialogFormUpdate = () => {
+      setOpenDialogFormUpdate(false);
+    }
+    const handleActionUpdateFindById = () => {
         async function getData() {
             try {
               await axios.post('http://localhost:3001/data/User_employee/Update', {
                 id: id,
-                first_name: firstName ,
-                last_name: lastName ,
-                birth_date: birthDate,
-                address: address,
-                role: role,
-                salary_day : salaryDaily
               })
               .then(function (response) {
-                console.log(response);
+                const dataToUpdate = response.data;
+                handleActionUpdate(dataToUpdate);
               })
               .catch(function (error) {
                 window.alert("Error: " + error.message)
@@ -217,8 +218,11 @@ const Employees = () => {
             }
           }
           getData();
-          // window.location.reload();
+          setOpenDialogFormUpdate(true);
       }
+    const handleActionUpdate = (data) => {
+      console.log(data);
+    }
     // render
     return (
         <>
@@ -421,55 +425,77 @@ const Employees = () => {
                             label="ID"
                             fullWidth
                         />
-                    <TextField
-                        onChange={onChangeFirstName}
-                        required
-                        margin="dense"
-                        id="firstName"
-                        label="First Name"
-                        fullWidth
-                    />
-                    <TextField
-                        onChange={onChangeLastName}
-                        margin="dense"
-                        id="lastName"
-                        label="Last Name"
-                        fullWidth
-                    />
-                    <TextField
-                        onChange={onChangeBirthDate}
-                        required
-                        id="birthDate"
-                        margin="dense"
-                        label="Birth date"
-                        type="date"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                        fullWidth
-                    />
-                    <TextField
-                        onChange={onChangeAddress}
-                        required
-                        margin="dense"
-                        id="address"
-                        label="Address"
-                        fullWidth
-                    />
-                    <TextField
-                        onChange={onChangeSalaryDaily}
-                        required
-                        margin="dense"
-                        id="salaryDaily"
-                        label="Salary Daily"
-                        fullWidth
-                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialogUpdate} color="primary" >
                         Cancel
                     </Button>
-                    <Button color="primary" onClick={handleActionUpdate}> 
+                    <Button color="primary" onClick={handleActionUpdateFindById}> 
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openDialogFormUpdate} onClose={handleCloseDialogFormUpdate} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Update</DialogTitle>
+                <DialogContent>
+                        <TextField
+                            onChange={onChangeFirstName}
+                            required
+                            margin="dense"
+                            id="firstName"
+                            label="First Name"
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={onChangeLastName}
+                            margin="dense"
+                            id="lastName"
+                            label="Last Name"
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={onChangeBirthDate}
+                            required
+                            id="birthDate"
+                            margin="dense"
+                            label="Birth date"
+                            type="date"
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={onChangeAddress}
+                            required
+                            margin="dense"
+                            id="address"
+                            label="Address"
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={onChangeRole}
+                            required
+                            margin="dense"
+                            id="role"
+                            label="Role"
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={onChangeSalaryDaily}
+                            required
+                            margin="dense"
+                            id="salaryDaily"
+                            label="Salary Daily"
+                            fullWidth
+                        />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialogFormUpdate} color="primary">
+                        Cancel
+                    </Button>
+                    <Button color="primary" onClick={handleActionUpdate}>
                         Submit
                     </Button>
                 </DialogActions>

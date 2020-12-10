@@ -27,16 +27,14 @@ app.post('/login' , (req , res )=>{
             PassWord: req.body.password
         }
         try{
-            let sql = "select `id` from `Users` where `username` = ? and `password` = ?"
+            let sql = "select * from `Users` where `username` = ? and `password` = ?"
             con.query(sql,[newUser.UserName , newUser.PassWord], (err , data) =>{
                if(err) {
                     res.send({status: false , message: "khong co user"})
                }
                else{
                    try {
-                        let results = JSON.parse(JSON.stringify(data));
-                        if(results[0].id > 0){
-                            console.log(results[0].id);
+                        if(data[0]){
                             res.send({ status: true , message: "Dang nhap thanh cong"})
                         }
                         else{
@@ -63,7 +61,7 @@ app.post('/login' , (req , res )=>{
 
 
 // LISTENERS
-app.listen( 9000 , () => (
+app.listen( 3001 , () => (
     console.log('server is run at post 9000')
 ))
 
