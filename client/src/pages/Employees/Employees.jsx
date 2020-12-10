@@ -197,18 +197,30 @@ const Employees = () => {
     }
       // Update event
     const [openDialogFormUpdate, setOpenDialogFormUpdate] = useState(false);
-    const [dataToUpdate, setDataToUpdate] = useState([]);
+    const [dataToUpdate, setDataToUpdate] = useState([
+      {
+        id: '',
+        first_name: "",
+        last_name: '',
+        address: "",
+        birth_date: "",
+        role: "",
+        salary_day: ''
+    }
+  ]);
     const handleCloseDialogFormUpdate = () => {
       setOpenDialogFormUpdate(false);
     }
     const handleActionUpdateFindById = () => {
         async function getData() {
             try {
-              await axios.post('http://localhost:3001/data/User_employee/Update', {
-                id: id,
+              await axios.post('http://localhost:3001/data/User_employee/Render_Employee', {
+                id: id
               })
               .then(function (response) {
                 setDataToUpdate(response.data);
+                // console.log(response.data[0]);
+                console.log(dataToUpdate[0].birth_date);
               })
               .catch(function (error) {
                 window.alert("Error: " + error.message)
@@ -221,7 +233,7 @@ const Employees = () => {
           setOpenDialogFormUpdate(true);
       }
     const handleActionUpdate = () => {
-        axios.post('http://localhost:3001/data/User_employee/update', {
+        axios.post('http://localhost:3001/data/User_employee/Update', {
           id: dataToUpdate.id,
           first_name: firstName ,
           last_name: lastName ,
@@ -460,7 +472,7 @@ const Employees = () => {
                             id="firstName"
                             label="First Name"
                             fullWidth
-                            default={dataToUpdate.first_name}
+                            defaultValue={dataToUpdate[0].first_name}
                         />
                         <TextField
                             onChange={onChangeLastName}
@@ -468,7 +480,7 @@ const Employees = () => {
                             id="lastName"
                             label="Last Name"
                             fullWidth
-                            default={dataToUpdate.last_name}
+                            defaultValue={dataToUpdate[0].last_name}
                         />
                         <TextField
                             onChange={onChangeBirthDate}
@@ -481,7 +493,8 @@ const Employees = () => {
                             shrink: true,
                             }}
                             fullWidth
-                            default={dataToUpdate.birth_date}
+                            defaultValue={dataToUpdate[0].birth_date}
+                            
                         />
                         <TextField
                             onChange={onChangeAddress}
@@ -490,7 +503,9 @@ const Employees = () => {
                             id="address"
                             label="Address"
                             fullWidth
-                            default={dataToUpdate.address}
+                            // default={dataToUpdate.address}
+                            defaultValue={dataToUpdate[0].address}
+
                         />
                         <TextField
                             onChange={onChangeRole}
@@ -499,7 +514,9 @@ const Employees = () => {
                             id="role"
                             label="Role"
                             fullWidth
-                            default={dataToUpdate.role}
+                            // default={dataToUpdate.role}
+                            defaultValue={dataToUpdate[0].role}
+                            
                         />
                         <TextField
                             onChange={onChangeSalaryDaily}
@@ -508,7 +525,9 @@ const Employees = () => {
                             id="salaryDaily"
                             label="Salary Daily"
                             fullWidth
-                            default={dataToUpdate.salary_day}
+                            // default={dataToUpdate.salary_day}
+                            defaultValue={dataToUpdate[0].salary_day}
+
                         />
                 </DialogContent>
                 <DialogActions>
