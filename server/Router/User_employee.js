@@ -69,7 +69,7 @@ router.post('/User_employee/Update' , (req, res)=>{
         }
         var sql = "call UP_value(?,?,?,?,?,?,?)";
         con.query(sql , [UPdate_Employee.id , UPdate_Employee.UP_first_name,UPdate_Employee.UP_last_name ,UPdate_Employee.UP_address,UPdate_Employee.UP_birth_date,UPdate_Employee.UP_roles,UPdate_Employee.UP_salary_day], (err, results)=>{
-            if (err) res.send({message : "cap nhat khong thanh cong"});
+            if (err) res.send({message : "success"});
             else
             {
                 res.send({message:"cap nhat thanh cong nhan vien"})
