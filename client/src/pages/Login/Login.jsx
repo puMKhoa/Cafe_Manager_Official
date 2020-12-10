@@ -7,45 +7,27 @@ import axios from 'axios';
 
 const Login = () => {
     //Loading data
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        checkUser() // Fetch games when component is mounted
-      }, [])
     //Control input value
     const [user,setUser] = useState('');
     const onChangeUser = (e) => {setUser(e.target.value)}
     const [password,setPassword] = useState('');
     const onChangePassword = (e) => {setPassword(e.target.value)}
     // LoginButton onClick
-    const checkUser = () => {
-            fetch('http://localhost:9000/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                user,
-                password 
-              }),
-            })
-              .then((res) => res.json())
-              .then((result) => setData(result))
-            //   .then((info) => console.log(info))
-              .catch((err) => console.log('error'))
-    };
-    const handleChange = (event) => {
-        checkUser();
-        console.log(data);
-        // console.log("da nhan nut");
-        try{
-            if(data.status === true)
-                // console.log("dang nhap thanh cong");
-                 console.log('chao than');
-                // window.location.replace(`http://localhost:3000/${user}${password}/employees`);
-        }catch(e){
-                window.alert("user/password wrong!");
-        }
-      }
+    const onClickLogin = () => {
+        axios.post('http://localhost:3001/login', {
+            user: user,
+            password: password
+        }).then(function (response) {
+            console.log(response.data);
+            (response.data.status) 
+            ? window.location.replace('http://localhost:3000/admin123456/employees')
+            : window.alert("User or Password incorrect");
+        })
+        .catch(function (error) {
+            console.log(error);
+        }).then(function (){
+        })
+    }
 
     //Render
     return (
@@ -80,7 +62,7 @@ const Login = () => {
                         onChange={onChangePassword}
                     />
                     <Button 
-                        onClick={handleChange}
+                        onClick={onClickLogin}
                         fullWidth
                         variant="contained"
                         color="primary"

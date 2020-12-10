@@ -20,14 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 app.use('/data',User_employee);
 // GET API
-app.get('/login', function (req, res) {
-    console.log("Inside Home Login");
-    res.writeHead(200, {
-        'Content-Type': 'application/json'
-    });
-
-})
-
 app.post('/login' , (req , res )=>{
     try{
         const newUser = {

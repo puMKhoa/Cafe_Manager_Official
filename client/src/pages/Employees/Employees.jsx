@@ -26,7 +26,6 @@ import UpdateIcon from '@material-ui/icons/Update';
 import './style.css'
 import axios from 'axios';
 import React, {useEffect, useState} from 'react'
-import AlertSuccess from '../../components/AlertSuccess';
 
 // Set style for icon action
 const useStyles = makeStyles((theme) => ({
@@ -143,7 +142,6 @@ const Employees = () => {
     const onChangeId = (e) => {setId(e.target.value);};
   
   // Alert
-      const [alert, setAlert] = useState(false);
    // Onclick submit action 
       // Add event
     const handleActionAdd = () => {
@@ -151,7 +149,7 @@ const Employees = () => {
       {
         async function getData() {
             try {
-              const response = await axios.post('http://localhost:3001/data/User_employee/insert', {
+              await axios.post('http://localhost:3001/data/User_employee/insert', {
                 first_name: firstName ,
                 last_name: lastName ,
                 birth_date: birthDate,
@@ -179,7 +177,7 @@ const Employees = () => {
     const handleActionDelete = () => {
         async function getData() {
             try {
-              const response = await axios.post('http://localhost:3001/data/User_employee/Delete', {
+              await axios.post('http://localhost:3001/data/User_employee/Delete', {
                 id: id
               })
               .then(function (response) {
@@ -194,13 +192,12 @@ const Employees = () => {
           }
           getData();
           window.location.reload();
-          setAlert(true);
     }
       // Update event
     const handleActionUpdate = () => {
         async function getData() {
             try {
-              const response = await axios.post('http://localhost:3001/data/User_employee/Update', {
+              await axios.post('http://localhost:3001/data/User_employee/Update', {
                 id: id,
                 first_name: firstName ,
                 last_name: lastName ,
@@ -221,8 +218,7 @@ const Employees = () => {
           }
           getData();
           // window.location.reload();
-  }
-
+      }
     // render
     return (
         <>
@@ -478,7 +474,6 @@ const Employees = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            {alert ? setTimeout(<AlertSuccess />, 3000) : null}
         </>
     )
 }
