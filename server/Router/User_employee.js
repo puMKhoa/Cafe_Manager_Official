@@ -55,7 +55,19 @@ router.post('/User_employee/Delete' , (req, res)=>{
         res.send({message:"khong tim thay id hoac id da duoc xoa"})
     }
 })
-
+router.post('/User_employee/Render_Employee' , (req , res)=>{
+    const ID = req.body.id;
+    try {
+        let sql = " call render_employee(?);";
+        con.query(sql , ID , (err , results)=>{
+            if(err) res.send({message: "khong tim thay employee"})
+            else
+                res.send(results[0])
+        })
+    } catch (error) {
+        res.send({message:eror.message})
+    }
+})
 router.post('/User_employee/Update' , (req, res)=>{
     try {
         const UPdate_Employee = {
