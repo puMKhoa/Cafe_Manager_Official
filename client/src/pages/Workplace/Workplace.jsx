@@ -68,7 +68,6 @@ export default function Workplace() {
           <Typography variant="h6" noWrap>
             Cafe Management
           </Typography>
-          
         </Toolbar>
       </AppBar>
       <Router>

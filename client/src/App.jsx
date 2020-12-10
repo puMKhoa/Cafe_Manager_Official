@@ -1,11 +1,15 @@
+<<<<<<< Updated upstream
 
 import Home from './pages/Home/Home'
+=======
+>>>>>>> Stashed changes
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
 import Workplace from './pages/Workplace/Workplace';
+import Login from './pages/Login/Login';
 function App() {
   return (
     <>
@@ -16,7 +20,7 @@ function App() {
               <Workplace />
             </Route>
             <Route path="/">
-              <Home />
+              <Login />
             </Route>
         </Switch>
       </Router>

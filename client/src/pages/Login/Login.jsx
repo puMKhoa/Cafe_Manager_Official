@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import {Container} from '../../containers/Login'
@@ -7,10 +7,7 @@ import axios from 'axios';
 
 const Login = () => {
     //Loading data
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        checkUser() // Fetch games when component is mounted
-      }, [])
+    // const [userReq, setUserReq] = useState([]);
     //Control input value
     
     const [user,setUser] = useState('');
@@ -18,6 +15,7 @@ const Login = () => {
     const [password,setPassword] = useState('');
     const onChangePassword = (e) => {setPassword(e.target.value)}
     // LoginButton onClick
+<<<<<<< Updated upstream
     const checkUser = () => {
             fetch('http://localhost:9000/login', {
               method: 'POST',
@@ -53,13 +51,29 @@ const Login = () => {
                 window.alert("user/password wrong!");
         }
       }
+=======
+    const onClickLogin = () => {
+        axios.post('http://localhost:3001/login', {
+            user: user,
+            password: password
+        }).then(function (response) {
+            console.log(response.data);
+            (response.data.status) 
+            ? window.location.replace('http://localhost:3000/admin123456/employees')
+            : window.alert("User or Password incorrect");
+        })
+        .catch(function (error) {
+            console.log(error);
+        }).then(function (){
+        })
+    }
+>>>>>>> Stashed changes
 
     //Render
     return (
         <>
             <Container>
                 <h1>Login</h1>
-                <form>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -68,7 +82,6 @@ const Login = () => {
                         id="user"
                         label="User Name"
                         name="user"
-                        autoComplete="user"
                         autoFocus
                         value={user}
                         onChange={onChangeUser}
@@ -82,19 +95,17 @@ const Login = () => {
                         label="Password"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
                         value={password}
                         onChange={onChangePassword}
                     />
                     <Button 
-                        onClick={handleChange}
+                        onClick={onClickLogin}
                         fullWidth
                         variant="contained"
                         color="primary"
                     >
                         Log in 
                     </Button>
-                </form>
             </Container>
         </>
     )

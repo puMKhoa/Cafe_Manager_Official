@@ -34,21 +34,21 @@ app.post('/login' , (req , res )=>{
             UserName: req.body.user,
             PassWord: req.body.password
         }
+        console.log(newUser);
         try{
-            let sql = "select `id` from `Users` where `username` = ? and `password` = ?"
+            let sql = "select * from `Users` where `username` = ? and `password` = ?"
             con.query(sql,[newUser.UserName , newUser.PassWord], (err , data) =>{
                if(err) {
                     res.send({status: false , message: "khong co user"})
                }
                else{
                    try {
-                        let results = JSON.parse(JSON.stringify(data));
-                        if(results[0].id > 0){
-                            console.log(results[0].id);
-                            res.send({ status: true , message: "Dang nhap thanh cong"})
+                        // let results = JSON.parse(JSON.stringify(data));
+                        if(data[0]){
+                            res.send({ status: true , message: "Dang nhap thanh cong"});
                         }
                         else{
-                            res.send({status: false , message: "khong co user"})
+                            res.send({status: false , message: "khong co user"});
                         }
                    } 
                    catch (error) {

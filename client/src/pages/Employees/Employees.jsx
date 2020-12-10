@@ -134,12 +134,72 @@ const Employees = () => {
     
    // Onclick submit action 
       // Add event
+<<<<<<< Updated upstream
     const handleActionAdd = () => {window.alert("add")}
+=======
+    const handleActionAdd = () => {
+      if(firstName && role && lastName && birthDate && address && salaryDaily)
+      {
+        async function getData() {
+            try {
+              const response = await axios.post('http://localhost:3001/data/User_employee/insert', {
+                first_name: firstName ,
+                last_name: lastName ,
+                birth_date: birthDate,
+                address: address,
+                role: role,
+                salary_day : salaryDaily
+              })
+              .then(function (response) {
+                window.alert(response.data);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+          window.location.reload();
+        } else {
+          window.alert("Invalid parameters");
+        }
+    }
+>>>>>>> Stashed changes
       // Delete event
     const handleActionDelete = () => {window.alert("delete")}
       // Update event
+<<<<<<< Updated upstream
     const handleActionUpdate = () => {window.alert("update")}
 
+=======
+    const handleActionUpdate = () => {
+        async function getData() {
+            try {
+              const response = await axios.post('http://localhost:3001/data/User_employee/Update', {
+                id: id,
+                first_name: firstName ,
+                last_name: lastName ,
+                birth_date: birthDate,
+                address: address,
+                role: role,
+                salary_day : salaryDaily
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+          // window.location.reload();
+      }
+>>>>>>> Stashed changes
     // render
     return (
         <>
@@ -385,8 +445,11 @@ const Employees = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+<<<<<<< Updated upstream
             {/* Alert check form is empty? */}
             
+=======
+>>>>>>> Stashed changes
         </>
     )
 }
