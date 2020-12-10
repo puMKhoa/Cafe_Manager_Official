@@ -34,7 +34,6 @@ const Login = () => {
         <>
             <Container>
                 <h1>Login</h1>
-                <form>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -69,7 +68,6 @@ const Login = () => {
                     >
                         Log in 
                     </Button>
-                </form>
             </Container>
         </>
     )
