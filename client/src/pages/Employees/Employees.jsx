@@ -212,15 +212,15 @@ const Employees = () => {
       setOpenDialogFormUpdate(false);
     }
     const handleActionUpdateFindById = () => {
-        async function getData() {
+        function getData() {
             try {
-              await axios.post('http://localhost:3001/data/User_employee/Render_Employee', {
+             axios.post('http://localhost:3001/data/User_employee/Render_Employee', {
                 id: id
               })
               .then(function (response) {
-                setDataToUpdate(response.data);
-                // console.log(response.data[0]);
-                console.log(dataToUpdate[0].birth_date);
+                // setDataToUpdate(response.data);
+                console.log(response.data);
+                // console.log(dataToUpdate[0].birth_date);
               })
               .catch(function (error) {
                 window.alert("Error: " + error.message)
@@ -434,7 +434,7 @@ const Employees = () => {
             </Dialog>
             {/* Alert check form is empty? */}
 
-            {/* Dialog add an employee */}
+            {/* Dialog update an employee */}
             <Dialog open={openDialogUpdate} onClose={handleCloseDialogUpdate} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Update an employee</DialogTitle>
                 <DialogContent>
