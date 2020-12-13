@@ -17,6 +17,7 @@ import {
 import Employees from '../Employees/Employees';
 import Celendar from '../Celendar/Celendar';
 import Menu from '../Menu/Menu';
+import Revenue from '../Revenue/Revenue';
 
 
 const drawerWidth = 240;
@@ -106,7 +107,7 @@ export default function Workplace() {
                     <Celendar />
                 </Route>
                 <Route path="/admin123456/Revenue">
-                    
+                    <Revenue />
                 </Route>
                 <Route path="/admin123456/Menu">
                     <Menu />

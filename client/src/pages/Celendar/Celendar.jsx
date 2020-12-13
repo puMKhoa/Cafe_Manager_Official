@@ -71,22 +71,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Celendar = () => {
     const classes = useStyles();
-
     // loading data
-    
-    // filter data
-    const [rowsFilter, setRowsFilter] = useState([
-        {
-            id: 1,
-            mon: 1,
-            tue: 1,
-            wed: 0,
-            thu: 0,
-            fri: 1,
-            sat: 1,
-            sun: 0
-        }
-    ]);
+    const [rowsFilter, setRowsFilter] = useState([]);
+     // function onclicksearch()
+    const onClickSearch = () => {
+        console.log(id);
+    }
+    // onchange Search
+    const [id, setId] = useState('');
+    const onChangeIDSearch = (e) => {
+        setId(e.target.value);
+    }
     // speedDial
     const handleSpeedDial = () => {openDialog();}
     // dialog 
@@ -117,6 +112,7 @@ const Celendar = () => {
         //sunday
     const [sun, setSun] = useState(0);
     const handleChangeSun = (e) => {setSun(e.target.value);};
+   
     // render
     return (
         <>
@@ -131,14 +127,14 @@ const Celendar = () => {
                         className={classes.input}
                         placeholder="Search employee by id"
                         inputProps={{ 'aria-label': 'search employee' }}
+                        onChange={onChangeIDSearch}
                     />
-                    <IconButton aria-label="search" className={classes.iconButton}>
+                    <IconButton aria-label="search" className={classes.iconButton} onClick={onClickSearch}>
                         <SearchIcon />
                     </IconButton>
                 </Paper>
             </div>
             {/* Table show employees */}
-            <form>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                         <TableHead>
@@ -205,7 +201,7 @@ const Celendar = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </form>
+            
             <SpeedDial
                     ariaLabel="SpeedDial tooltip example"
                     icon={<EditIcon />}

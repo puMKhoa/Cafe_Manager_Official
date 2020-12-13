@@ -57,10 +57,12 @@ router.post('/User_employee/Delete' , (req, res)=>{
 })
 router.post('/User_employee/Render_Employee' , (req , res)=>{
     const ID = req.body.id;
+    console.log(ID);
     try {
         let sql = " call render_employee(?);";
         con.query(sql , ID , (err , results)=>{
-            if(err) res.send({message: "khong tim thay employee"})
+            if(err) 
+                res.send({message: "khong tim thay employee"})
             else
                 res.send(results[0])
         })
