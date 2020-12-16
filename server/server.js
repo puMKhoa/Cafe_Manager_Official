@@ -4,6 +4,8 @@ const app = express();
 const con = require('./connection')
 const cors = require('cors');
 const User_employee = require('./Router/User_employee')
+const User_Calendar = require('./Router/User_Calendar')
+const Menu_Order = require('./Router/Menu_order')
 const logger = require("morgan");
 
 // middleware
@@ -19,6 +21,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 app.use('/data',User_employee);
+app.use('/Menu_order',Menu_Order);
+app.use('/User_Calendar', User_Calendar);
 // GET API
 app.get('/login', function (req, res) {
     console.log("Inside Home Login");
