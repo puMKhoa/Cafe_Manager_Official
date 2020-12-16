@@ -147,7 +147,7 @@ const Menu = () => {
             <CardActionArea>
                 <CardMedia
                 className={classes.media}
-                image={item.urlImg}
+                image='../../img/1.jpg'
                 title={item.name}
                 />
                 <CardContent>
@@ -172,9 +172,9 @@ const Menu = () => {
                 >
             {/* Action add */}
                 <SpeedDialAction
-                    key={`Add new employee`}
+                    key={`Add new item`}
                     icon={<PlusOneIcon />}
-                    tooltipTitle={`Add new employee`}
+                    tooltipTitle={`Add new item`}
                     tooltipOpen
                     onClick={() => {
                         actionAdd();
@@ -183,9 +183,9 @@ const Menu = () => {
                 />
                 {/* Action delete */}
                 <SpeedDialAction
-                    key={`Delete an employee`}
+                    key={`Delete an item`}
                     icon={<DeleteForeverIcon />}
-                    tooltipTitle={`Delete an employee`}
+                    tooltipTitle={`Delete an item`}
                     tooltipOpen
                     onClick={() => {
                         actionDelete();
@@ -194,9 +194,9 @@ const Menu = () => {
                 />
                 {/* Action update */}
                 <SpeedDialAction
-                    key={`Update an employee`}
+                    key={`Update an item`}
                     icon={<UpdateIcon />}
-                    tooltipTitle={`Update an employee`}
+                    tooltipTitle={`Update an item`}
                     tooltipOpen
                     onClick={() => {
                         actionUpdate();
