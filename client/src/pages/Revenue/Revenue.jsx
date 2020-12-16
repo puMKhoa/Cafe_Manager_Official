@@ -1,4 +1,4 @@
-import { MenuItem, Paper, Select, Typography } from '@material-ui/core'
+import { Button, MenuItem, Paper, Select, Typography } from '@material-ui/core'
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,6 +7,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react'
 import './style.css'
 const Revenue = () => {
+    const [dataSalary, setDataSalary] = useState([]);
+    const [dataOrder, setDataOrder] = useState([]);
+    const [dataProfit, setDataProfit] = useState([]);
     const [time, setTime] = useState('');
     const onChangeTime = (e) => {setTime(e.target.value)};
     return (
@@ -27,8 +30,13 @@ const Revenue = () => {
                             value={time}
                             onChange={onChangeTime}
                         >
-                            <MenuItem value={'06/2020'}>June - 2020</MenuItem> 
+                            <MenuItem value={'06/2020'}>January - 2020</MenuItem>
                         </Select>
+                    </Typography>
+                    <Typography align="right">
+                        <Button color="primary" variant="contained">
+                            Show Table
+                        </Button>
                     </Typography>
                 </Paper> 
                 <Paper  className="paper">
@@ -46,6 +54,11 @@ const Revenue = () => {
                             <MenuItem value={'06/2020'}>June - 2020</MenuItem> 
                         </Select>
                     </Typography>
+                    <Typography align="right">
+                        <Button color="primary" variant="contained">
+                            Show Table
+                        </Button>
+                    </Typography>
                 </Paper> 
                 <Paper  className="paper">
                     <Typography  align="left" variant="h6" paragraph>
@@ -62,22 +75,13 @@ const Revenue = () => {
                             <MenuItem value={'06/2020'}>June - 2020</MenuItem> 
                         </Select>
                     </Typography>
+                    <Typography align="right">
+                        <Button color="primary" variant="contained">
+                            Show Table
+                        </Button>
+                    </Typography>
                 </Paper> 
             </div>
-            <Paper component="form" className="container-search">
-                <IconButton aria-label="menu">
-                    <MenuIcon />
-                </IconButton>
-                <InputBase
-                    className="input-search"
-                    placeholder="Input here..."
-                    inputProps={{ 'aria-label': 'input here' }}
-                />
-                <IconButton className="" aria-label="search">
-                    <SearchIcon />
-                </IconButton>
-            </Paper>
-            
         </>
     )
 }
