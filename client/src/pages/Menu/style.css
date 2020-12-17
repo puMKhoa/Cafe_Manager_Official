@@ -2,6 +2,7 @@
 .menu{
     display: flex;
     justify-content: start;
+    flex-wrap: wrap;
 }
 
 .MuiCardActions-root.MuiCardActions-spacing{

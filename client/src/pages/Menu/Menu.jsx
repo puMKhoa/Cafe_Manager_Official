@@ -39,33 +39,19 @@ const Menu = () => {
     const classes = useStyles();
     // loading data
     const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'cafe',
-            price: 10
-        },
-        {
-            id: 2,
-            name: 'cafe',
-            price: 10
-        },
-        {
-            id: 3,
-            name: 'cafe',
-            price: 10
-        },
+      
     ]);
-    // useEffect(() => {
-    //     async function getData() {
-    //       try {
-    //         const response = await Axios.get('');
-    //         setData(response.data);
-    //       } catch (error) {
-    //         console.error(error);
-    //       }
-    //     }
-    //     getData();
-    //   }, []);
+    useEffect(() => {
+        async function getData() {
+          try {
+            const response = await Axios.get('http://localhost:3001/Menu_Item/');
+            setData(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        getData();
+      }, []);
     // onclick 
         //updates
     const [showDialogUpdate, setShowDialogUpdate] = useState(false);
@@ -77,6 +63,20 @@ const Menu = () => {
         setShowDialogUpdate(false);
     }
     const handleClickOpenFormUpdate =() => {
+        try {
+            Axios.post('http://localhost:3001/Menu_item/Render_Employee', {
+                id: id
+             })
+             .then(function (response) {
+                console.log(response);
+                window.location.reload();      
+             })
+             .catch(function (error) {
+               window.alert("Error: " + error.message)
+             });
+           } catch (error) {
+             window.location.alert(error);
+           }
         handleClickCloseDialogUpdate();
         setOpenFormUpdate(true);
     }
@@ -101,9 +101,45 @@ const Menu = () => {
         setShowDialogAdd(false);
     }
         // submit
-    const submitAdd = () => {}
-    const submitUpdate = () => {}
-    const submitDelete = () => {}
+    const submitAdd = () => {
+        try {
+            Axios.post('http://localhost:3001/Menu_item/Insert_Menu/', {
+                id: id,
+               name: name,
+               price: price,
+               urlImg: urlImg
+             })
+             .then(function (response) {
+                console.log(response);
+                window.location.reload(); 
+             })
+             .catch(function (error) {
+               window.alert("Error: " + error.message)
+             });
+           } catch (error) {
+             window.location.alert(error);
+           }
+    }
+
+    const submitUpdate = () => {
+        
+    }
+    const submitDelete = () => {
+        try {
+            Axios.post('http://localhost:3001/Menu_item/Delete_Menu/', {
+                id: id
+             })
+             .then(function (response) {
+                console.log(response);
+                window.location.reload();      
+             })
+             .catch(function (error) {
+               window.alert("Error: " + error.message)
+             });
+           } catch (error) {
+             window.location.alert(error);
+           }
+    }
 
 
     // Icon Action
@@ -135,6 +171,8 @@ const Menu = () => {
     const onChangeName = (e) => {setName(e.target.value);};
     const [price, setPrice] = useState('');
     const onChangePrice = (e) => {setPrice(e.target.value);};
+    const [urlImg, seturlImg] = useState('');
+    const onChangeUrlImg = (e) => {setPrice(e.target.value);};
     return (
         <>
         <Typography  align="center" variant="h4" paragraph>
@@ -148,14 +186,14 @@ const Menu = () => {
                 <CardMedia
                 className={classes.media}
                 image={item.urlImg}
-                title={item.name}
+                title={item.item_name}
                 />
                 <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {item.name}
+                <Typography gutterBottom variant="h6" component="h2">
+                    {item.item_name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Price: ${item.price}
+                    Price: ${item.item_price}
                 </Typography>
                 </CardContent>
             </CardActionArea>
@@ -207,25 +245,16 @@ const Menu = () => {
             </div>
 
         <Dialog open={showDialogAdd} onClose={closeDialogAdd} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Update</DialogTitle>
+                <DialogTitle id="form-dialog-title">Add</DialogTitle>
                 <DialogContent>
                 <DialogContentText>
                         To add new item on menu, please informations here. We will send updates
                         occasionally.
                     </DialogContentText>
                     <TextField 
-                        onChange={onChangeId}
-                        required
-                        autoFocus
-                        margin="dense"
-                        id="id"
-                        label="ID"
-                        fullWidth
-                    />
-                    <TextField 
                         onChange={onChangeName}
                         required
-                        autoFocus
+                        autoFocusss
                         margin="dense"
                         id="name"
                         label="Name"
@@ -234,10 +263,17 @@ const Menu = () => {
                     <TextField 
                         onChange={onChangePrice}
                         required
-                        autoFocus
                         margin="dense"
                         id="price"
                         label="Price"
+                        fullWidth
+                    />
+                    <TextField 
+                        onChange={onChangeUrlImg}
+                        required
+                        margin="dense"
+                        id="urlImg"
+                        label="Background"
                         fullWidth
                     />
                 </DialogContent>
@@ -250,8 +286,6 @@ const Menu = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        
-        
             <Dialog open={showDialogDelete} onClose={closeDialogDelete} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Delete</DialogTitle>
                 <DialogContent>
@@ -331,6 +365,15 @@ const Menu = () => {
                     fullWidth
                     // defaultValue={}
                 />
+                <TextField 
+                        onChange={onChangeUrlImg}
+                        required
+                        margin="dense"
+                        id="urlImg"
+                        label="Background"
+                        fullWidth
+                    // defaultValue={}
+                    />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClickCloseFormUpdate} color="primary">

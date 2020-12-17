@@ -28,6 +28,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,8 +76,27 @@ const Celendar = () => {
     const [rowsFilter, setRowsFilter] = useState([]);
      // function onclicksearch()
     const onClickSearch = () => {
-        console.log(id);
+        if(id){
+            try {
+             Axios.post('http://localhost:3001/User_calendar/take_value/', {
+                id: id
+              })
+              .then(function (response) {
+                // setDataToUpdate(response.data);
+                setRowsFilter(response.data);
+                // console.log(dataToUpdate[0].birth_date);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }else{
+            window.alert('invalid id')
+        }
     }
+        
     // onchange Search
     const [id, setId] = useState('');
     const onChangeIDSearch = (e) => {
@@ -89,7 +109,31 @@ const Celendar = () => {
     const openDialog = () => {setDialog(true)};
     const closeDialog = () => {setDialog(false)};
     // dialog submit
-    const handleDialogActionUpdate = () => {}
+    const handleDialogActionUpdate = () => {
+        if(id){
+            try {
+             Axios.post('http://localhost:3001/User_calendar/update_value/', {
+                id:id,
+                mon:mon, tue:tue,wed:wed, thu:thu, fri:fri , sat:sat, sun:sun
+                
+              })
+              .then(function (response) {
+                // setDataToUpdate(response.data);
+                closeDialog();
+                setId(id);
+                onClickSearch();
+                // console.log(dataToUpdate[0].birth_date);
+              })
+              .catch(function (error) {
+                window.alert("Error: " + error.message)
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }else{
+            window.alert('invalid employee')
+        }
+    }
     // update by select
         //monday
     const [mon, setMon] = useState(0);
@@ -153,7 +197,7 @@ const Celendar = () => {
                         <TableBody>
                             {rowsFilter.map((row) => (
                                 <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row"> Duong Dang Khoa </TableCell>
+                                    <TableCell component="th" scope="row">{row.first_name +" " + row.last_name}</TableCell>
                                     {row.mon === 1 
                                         ?
                                             <TableCell align="center"><DoneIcon style={{ color: green[500] }}/></TableCell>
