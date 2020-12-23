@@ -28,8 +28,7 @@ const Revenue = () => {
                     <Typography align="left">
                         <Select 
                             value={time}
-                            onChange={onChangeTime}
-                        >
+                            onChange={onChangeTime}>
                             <MenuItem value={'06/2020'}>January - 2020</MenuItem>
                         </Select>
                     </Typography>
