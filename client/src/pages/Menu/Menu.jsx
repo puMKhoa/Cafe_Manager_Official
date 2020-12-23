@@ -210,9 +210,9 @@ const Menu = () => {
                 >
             {/* Action add */}
                 <SpeedDialAction
-                    key={`Add new employee`}
+                    key={`Add new item`}
                     icon={<PlusOneIcon />}
-                    tooltipTitle={`Add new employee`}
+                    tooltipTitle={`Add new item`}
                     tooltipOpen
                     onClick={() => {
                         actionAdd();
@@ -221,9 +221,9 @@ const Menu = () => {
                 />
                 {/* Action delete */}
                 <SpeedDialAction
-                    key={`Delete an employee`}
+                    key={`Delete an item`}
                     icon={<DeleteForeverIcon />}
-                    tooltipTitle={`Delete an employee`}
+                    tooltipTitle={`Delete an item`}
                     tooltipOpen
                     onClick={() => {
                         actionDelete();
@@ -232,9 +232,9 @@ const Menu = () => {
                 />
                 {/* Action update */}
                 <SpeedDialAction
-                    key={`Update an employee`}
+                    key={`Update an item`}
                     icon={<UpdateIcon />}
-                    tooltipTitle={`Update an employee`}
+                    tooltipTitle={`Update an item`}
                     tooltipOpen
                     onClick={() => {
                         actionUpdate();
@@ -312,8 +312,6 @@ const Menu = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-       
-        
             <Dialog open={showDialogUpdate} onClose={closeDialogUpdate} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Update</DialogTitle>
                 <DialogContent>

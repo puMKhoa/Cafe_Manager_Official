@@ -11,7 +11,7 @@ function App() {
       
       <Router>
         <Switch>
-            <Route path="/admin123456">
+            <Route path="/admin">
               <Workplace />
             </Route>
             <Route path="/">

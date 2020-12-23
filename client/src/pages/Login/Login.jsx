@@ -20,7 +20,7 @@ const Login = () => {
         }).then(function (response) {
             console.log(response.data);
             (response.data.status) 
-            ? window.location.replace('http://localhost:3000/admin123456/employees')
+            ? window.location.replace('http://localhost:3000/admin/employees')
             : window.alert("User or Password incorrect");
         })
         .catch(function (error) {

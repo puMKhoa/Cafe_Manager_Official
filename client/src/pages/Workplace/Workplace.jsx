@@ -20,6 +20,7 @@ import Menu from '../Menu/Menu';
 import Revenue from '../Revenue/Revenue';
 
 
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -83,8 +84,8 @@ export default function Workplace() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Employees', 'Celendar', 'Revenue', 'Menu'].map((text, index) => (
-                <Link to={`/admin123456/${text}`} className={classes.drawerButton}>
+            {['Employees', 'Celendar', 'Revenue', 'Menu', 'Setting'].map((text, index) => (
+                <Link to={`/admin/${text}`} className={classes.drawerButton}>
                     <ListItem  button key={text}>
                         <ListItemText primary={text} />
                     </ListItem>
@@ -100,18 +101,19 @@ export default function Workplace() {
       <main className={classes.content}>
         
             <Switch>
-                <Route path="/admin123456/Employees">
+                <Route path="/admin/Employees">
                     <Employees />
                 </Route>
-                <Route path="/admin123456/Celendar">
+                <Route path="/admin/Celendar">
                     <Celendar />
                 </Route>
-                <Route path="/admin123456/Revenue">
+                <Route path="/admin/Revenue">
                     <Revenue />
                 </Route>
-                <Route path="/admin123456/Menu">
+                <Route path="/admin/Menu">
                     <Menu />
                 </Route>
+
             </Switch>
         
       </main>
