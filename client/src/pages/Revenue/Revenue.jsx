@@ -5,13 +5,34 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react'
+import axios from 'axios';
 import './style.css'
 const Revenue = () => {
     const [dataSalary, setDataSalary] = useState([]);
-    const [dataOrder, setDataOrder] = useState([]);
+    const [dataOrder, setDataOrder] = useState('$0000.0');
     const [dataProfit, setDataProfit] = useState([]);
     const [time, setTime] = useState('');
-    const onChangeTime = (e) => {setTime(e.target.value)};
+    const onChangeTime = (e) => {
+        setTime(e.target.value);
+        axios.post('http://localhost:3001/Order_month/Total_Price_Order/', {
+            month: e.target.value        
+        })
+        .then((response) => {
+            setDataOrder(response.data[0].Total_Price_order);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+        axios.post('http://localhost:3001/Order_month/Total_Price_Order/', {
+            month: e.target.value        
+        })
+        .then((response) => {
+            setDataOrder(response.data[0].Total_Price_order);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+        };
     return (
         <>
             <Typography  align="center" variant="h4" paragraph>
@@ -29,7 +50,7 @@ const Revenue = () => {
                         <Select 
                             value={time}
                             onChange={onChangeTime}>
-                            <MenuItem value={'06/2020'}>January - 2020</MenuItem>
+                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem>
                         </Select>
                     </Typography>
                     <Typography align="right">
@@ -43,14 +64,14 @@ const Revenue = () => {
                         Total Price Order
                     </Typography>
                     <Typography  align="center" variant="h4" paragraph>
-                        $51000
+                        {dataOrder}
                     </Typography>
                     <Typography align="left">
                         <Select 
                             value={time}
                             onChange={onChangeTime}
                         >
-                            <MenuItem value={'06/2020'}>June - 2020</MenuItem> 
+                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem> 
                         </Select>
                     </Typography>
                     <Typography align="right">
@@ -71,7 +92,7 @@ const Revenue = () => {
                             value={time}
                             onChange={onChangeTime}
                         >
-                            <MenuItem value={'06/2020'}>June - 2020</MenuItem> 
+                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem> 
                         </Select>
                     </Typography>
                     <Typography align="right">
