@@ -33,7 +33,7 @@ app.post('/login' , (req , res )=>{
             PassWord: req.body.password
         }
         try{
-            let sql = "select * from `Users` where `username` = ? and `password` = ?"
+            let sql = "select * from `users` where `username` = ? and `password` = ?"
             con.query(sql,[newUser.UserName , newUser.PassWord], (err , data) =>{
                if(err) {
                     res.send({status: false , message: "khong co user"})
