@@ -14,6 +14,14 @@ const Revenue = () => {
     const [time, setTime] = useState('');
     const onChangeTime = (e) => {
         setTime(e.target.value);
+        axios.post('http://localhost:3001/Order_month/Total_salary_value/', {      
+        })
+        .then((response) => {
+            setDataOrder(response.data[0].Total_Price_order);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
         axios.post('http://localhost:3001/Order_month/Total_Price_Order/', {
             month: e.target.value        
         })
@@ -23,7 +31,7 @@ const Revenue = () => {
         .catch((error) => {
             console.log(error)
         });
-        axios.post('http://localhost:3001/Order_month/Total_Price_Order/', {
+        axios.post('http://localhost:3001/Order_month/Total_Profit/', {
             month: e.target.value        
         })
         .then((response) => {
@@ -51,6 +59,17 @@ const Revenue = () => {
                             value={time}
                             onChange={onChangeTime}>
                             <MenuItem value={'2020-01-01'}>January - 2020</MenuItem>
+                            <MenuItem value={'2020-02-01'}>February - 2020</MenuItem>
+                            <MenuItem value={'2020-03-01'}>March - 2020</MenuItem>
+                            <MenuItem value={'2020-04-01'}>April - 2020</MenuItem>
+                            <MenuItem value={'2020-05-01'}>May - 2020</MenuItem>
+                            <MenuItem value={'2020-06-01'}>June - 2020</MenuItem>
+                            <MenuItem value={'2020-07-01'}>July - 2020</MenuItem>
+                            <MenuItem value={'2020-08-01'}>August - 2020</MenuItem>
+                            <MenuItem value={'2020-09-01'}>September - 2020</MenuItem>
+                            <MenuItem value={'2020-10-01'}>October - 2020</MenuItem>
+                            <MenuItem value={'2020-11-01'}>November - 2020</MenuItem>
+                            <MenuItem value={'2020-12-01'}>December - 2020</MenuItem>
                         </Select>
                     </Typography>
                     <Typography align="right">
@@ -71,7 +90,18 @@ const Revenue = () => {
                             value={time}
                             onChange={onChangeTime}
                         >
-                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem> 
+                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem>
+                            <MenuItem value={'2020-02-01'}>February - 2020</MenuItem>
+                            <MenuItem value={'2020-03-01'}>March - 2020</MenuItem>
+                            <MenuItem value={'2020-04-01'}>April - 2020</MenuItem>
+                            <MenuItem value={'2020-05-01'}>May - 2020</MenuItem>
+                            <MenuItem value={'2020-06-01'}>June - 2020</MenuItem>
+                            <MenuItem value={'2020-07-01'}>July - 2020</MenuItem>
+                            <MenuItem value={'2020-08-01'}>August - 2020</MenuItem>
+                            <MenuItem value={'2020-09-01'}>September - 2020</MenuItem>
+                            <MenuItem value={'2020-10-01'}>October - 2020</MenuItem>
+                            <MenuItem value={'2020-11-01'}>November - 2020</MenuItem>
+                            <MenuItem value={'2020-12-01'}>December - 2020</MenuItem> 
                         </Select>
                     </Typography>
                     <Typography align="right">
@@ -92,7 +122,18 @@ const Revenue = () => {
                             value={time}
                             onChange={onChangeTime}
                         >
-                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem> 
+                            <MenuItem value={'2020-01-01'}>January - 2020</MenuItem>
+                            <MenuItem value={'2020-02-01'}>February - 2020</MenuItem>
+                            <MenuItem value={'2020-03-01'}>March - 2020</MenuItem>
+                            <MenuItem value={'2020-04-01'}>April - 2020</MenuItem>
+                            <MenuItem value={'2020-05-01'}>May - 2020</MenuItem>
+                            <MenuItem value={'2020-06-01'}>June - 2020</MenuItem>
+                            <MenuItem value={'2020-07-01'}>July - 2020</MenuItem>
+                            <MenuItem value={'2020-08-01'}>August - 2020</MenuItem>
+                            <MenuItem value={'2020-09-01'}>September - 2020</MenuItem>
+                            <MenuItem value={'2020-10-01'}>October - 2020</MenuItem>
+                            <MenuItem value={'2020-11-01'}>November - 2020</MenuItem>
+                            <MenuItem value={'2020-12-01'}>December - 2020</MenuItem> 
                         </Select>
                     </Typography>
                     <Typography align="right">
