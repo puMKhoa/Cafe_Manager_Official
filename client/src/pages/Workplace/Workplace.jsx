@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,7 +18,11 @@ import Employees from '../Employees/Employees';
 import Celendar from '../Celendar/Celendar';
 import Menu from '../Menu/Menu';
 import Revenue from '../Revenue/Revenue';
-
+import { useHistory } from "react-router-dom";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
+import './styles.css';
+import Order from '../Order/Order';
+import Axios from 'axios';
 
 
 const drawerWidth = 240;
@@ -56,12 +60,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Workplace() {
   const classes = useStyles();
+  const history = useHistory();
   const logout = () => {
-      window.location.replace(`http://localhost:3000/`);
+      history.push('/');
+      sessionStorage.setItem('auth', 'false');
   }
+  const [dialogSettingAcount, setDialogSettingAcount] = useState(false);
+  const handleClickCloseDialogSettingAcount = () => {
+    setDialogSettingAcount(false);
+  }
+  const [disable, setDisable] = useState(true);
+  useEffect(() => {
+    async function getAccount() {
+      await Axios.get('http://localhost:3001/account')
+      .then((response) => {
+        setUserName(response.data[0].username);
+        setPassword(response.data[0].password);
+      })
+    }
+    getAccount();
+  }, []);
+  const settingAcount = () => {
+  setDialogSettingAcount(true);
+  setDisable(true);
+  }
+  
 
+  // eslint-disable-next-line no-unused-vars
+  const [username, setUserName] = useState('');
+  const onChangeUserName = (e) => {setUserName(e.target.value);};
+  // eslint-disable-next-line no-unused-vars
+  const [password, setPassword] = useState('');
+  const onChangePassword = (e) => {setPassword(e.target.value);};
+
+  const submitUpdateAccount = () => {
+    setDisable(false);
+    if(disable === false) {
+      try {
+        Axios.post('http://localhost:3001/change_password', {
+            username: username,
+            password: password
+         })
+         .then(function (response) {
+            if(response.data.status){
+              window.alert("Update your account success!");
+              handleClickCloseDialogSettingAcount();
+              logout();
+            }
+         })
+         .catch(function (error) {
+           window.alert("Error: " + error.message)
+         });
+       } catch (error) {
+         window.location.alert(error);
+       }
+    }
+  }
+  var auth = sessionStorage.getItem('auth');
+  if(auth==='true')
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -70,7 +129,6 @@ export default function Workplace() {
           <Typography variant="h6" noWrap>
             Cafe Management
           </Typography>
-          
         </Toolbar>
       </AppBar>
       <Router>
@@ -84,13 +142,16 @@ export default function Workplace() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Employees', 'Celendar', 'Revenue', 'Menu', 'Setting'].map((text, index) => (
+            {['Employees', 'Celendar', 'Revenue', 'Menu', 'Order'].map((text, index) => (
                 <Link to={`/admin/${text}`} className={classes.drawerButton}>
                     <ListItem  button key={text}>
                         <ListItemText primary={text} />
                     </ListItem>
                 </Link>
             ))}
+                <ListItem button key={`Account`} onClick={settingAcount}>
+                        <ListItemText primary={`Account`} />
+                </ListItem>
                 <ListItem button key={`Log out`} onClick={logout}>
                         <ListItemText primary={`Log out`} />
                 </ListItem>
@@ -113,11 +174,71 @@ export default function Workplace() {
                 <Route path="/admin/Menu">
                     <Menu />
                 </Route>
-
+                <Route path="/admin/Order">
+                    <Order />
+                </Route>
             </Switch>
-        
       </main>
       </Router>
-    </div>
-  );
+
+      {dialogSettingAcount ?     
+        <Dialog open={dialogSettingAcount} onClose={handleClickCloseDialogSettingAcount} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title-acount">Account</DialogTitle>
+            <DialogContent>
+              { disable ?
+                <>
+                <TextField 
+                  onChange={onChangeUserName}
+                  disabled
+                  margin="dense"
+                  id="username"
+                  label="Username"
+                  fullWidth
+                  defaultValue={username}
+                />
+                  <TextField 
+                  onChange={onChangePassword}
+                  disabled
+                  margin="dense"
+                  id="password"
+                  label="Password"
+                  fullWidth
+                  defaultValue={password}
+                   />
+                  </>
+                :
+                 <>
+                  <TextField 
+                    onChange={onChangeUserName}
+                    autoFocus
+                    margin="dense"
+                    id="username"
+                    label="Username"
+                    fullWidth
+                    defaultValue={username}
+                  />
+                    <TextField 
+                    onChange={onChangePassword}                    
+                    margin="dense"
+                    id="password"
+                    label="Password"
+                    fullWidth
+                    defaultValue={password}
+                    />
+                 </>
+              }
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClickCloseDialogSettingAcount} color="primary">
+                    Cancel
+                </Button>
+                <Button color="primary" onClick={submitUpdateAccount}>
+                    {disable ? 'Update Account' : 'Submit'}
+                </Button>
+            </DialogActions>
+        </Dialog>
+        : null
+      }
+    </div>);
+  else return <h1>HTTP/1.1 401 Unauthorized</h1>
 }

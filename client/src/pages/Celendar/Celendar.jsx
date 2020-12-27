@@ -83,7 +83,7 @@ const Celendar = () => {
               })
               .then(function (response) {
                 // setDataToUpdate(response.data);
-                console.log(response.data);
+                setRowsFilter(response.data);
                 // console.log(dataToUpdate[0].birth_date);
               })
               .catch(function (error) {

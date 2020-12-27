@@ -4,10 +4,13 @@ import Button from '@material-ui/core/Button'
 import {Container} from '../../containers/Login'
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
-import { AlertTitle } from '@material-ui/core';
+import { Collapse } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+
+
+
 
 const Login = () => {
-    //Loading data
     //control alert
     const [showAlert, setShowAlert] = useState(false);
     //Control input value
@@ -16,16 +19,22 @@ const Login = () => {
     const [password,setPassword] = useState('');
     const onChangePassword = (e) => {setPassword(e.target.value)}
     // LoginButton onClick
+    const history = useHistory();
+    sessionStorage.setItem('auth','false');
     const onClickLogin = () => {
         axios.post('http://localhost:3001/login', {
             user: user,
             password: password
         }).then(function (response) {
-            if(response.data.status) 
-                window.location.replace('http://localhost:3000/admin/employees')
+            if(response.data.status){
+                sessionStorage.setItem('auth', 'true');
+                history.push("/admin/employees");
+            }
             else {
                 setShowAlert(true);
-                setTimeout(function() {setShowAlert(false);}, 3000);
+                setTimeout(()=> {
+                    setShowAlert(false);
+                },3000);
             }
         })
         .catch(function (error) {
@@ -34,18 +43,18 @@ const Login = () => {
         })
     }
     
+    
 
     //Render
     return (
         <>
             <Container>
                 <h1>Login</h1>
-                {!showAlert ? null : 
-                <Alert severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                    Your username and password is incorrect — <strong>check it out!</strong>
-                </Alert>
-                }
+                    <Collapse in={showAlert} timeout={400}>
+                        <Alert variant="filled" severity="error">
+                            Your username and password is incorrect — <strong>check it out!</strong>
+                        </Alert>
+                    </Collapse>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -72,6 +81,7 @@ const Login = () => {
                         value={password}
                         onChange={onChangePassword}
                     />
+                    
                     <Button 
                         onClick={onClickLogin}
                         fullWidth
@@ -80,8 +90,9 @@ const Login = () => {
                     >
                         Log in 
                     </Button>
-    
+                    
             </Container>
+            
         </>
     )
 }
