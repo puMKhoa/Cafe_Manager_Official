@@ -127,7 +127,7 @@ app.post('/login' , (req , res )=>{
 
 // LISTENERS
 app.listen( 3001 , () => (
-    console.log('server is run at post 9000')
+    console.log('server is run at post 3001')
 ))
 
 module.exports = con;
