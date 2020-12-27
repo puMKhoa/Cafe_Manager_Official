@@ -51,7 +51,6 @@ app.post('/login' , (req , res )=>{
                         console.log("khong co user");
                         res.send({status: false , message: "khong co user"})
                    }
-               
             }
             })
         }
