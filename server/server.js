@@ -26,6 +26,65 @@ app.use('/User_Calendar', User_Calendar)
 app.use('/Menu_item', Menu_Item)
 app.use('/Order_month' , Order_month)
 // GET API
+app.get('/get_order_data', (req , res) => {
+    try {
+        let sql = "select * from `order` where id < 100;";
+        con.query(sql, (err, result) => {
+                if(err)
+                    res.send(err);
+                else
+                    res.send(result);
+        })
+    } catch(err) {
+        console.log(err);
+    }
+})
+app.post('/render_order_month/' , (req , res)=>{
+    try {
+        const value_month = req.body.month;
+        let sql = "call render_order_month(?);";
+        console.log(value_month);
+        con.query(sql , value_month, (err , results)=>{
+            if(err) res.send({message: err.message})
+            else
+                res.send(results)
+        })
+    } 
+    catch (error) {
+        res.send({error: error.message})
+    }
+})
+app.get('/account' , (req  , res)=>{
+    try {
+        let sql = "select * from users where id=999";
+        con.query(sql , (err,  results)=>{
+            if(err) res.send({message: err.message})
+            else
+                res.send(results)
+        })
+    }
+    catch{
+        res.send({message: err.message})
+    }
+})
+app.post('/change_password' , (req, res) => {
+    try {
+        const account = {
+            username: req.body.username,
+            password: req.body.password,
+        }
+        let sql = 'call change_password(?,?)'
+        con.query(sql , [account.username , account.password] , (err , results)=>{
+            if(err) res.send({message : err.message})
+            else{
+                res.send({status: true})
+            }
+        })
+    }
+    catch{
+        res.send({message : err.message})
+    }
+})
 app.post('/login' , (req , res )=>{
     try{
         const newUser = {
@@ -33,7 +92,7 @@ app.post('/login' , (req , res )=>{
             PassWord: req.body.password
         }
         try{
-            let sql = "select * from `Users` where `username` = ? and `password` = ?"
+            let sql = "select * from `users` where `username` = ? and `password` = ?"
             con.query(sql,[newUser.UserName , newUser.PassWord], (err , data) =>{
                if(err) {
                     res.send({status: false , message: "khong co user"})
@@ -67,7 +126,7 @@ app.post('/login' , (req , res )=>{
 
 // LISTENERS
 app.listen( 3001 , () => (
-    console.log('server is run at post 9000')
+    console.log('server is run at post 3001')
 ))
 
 module.exports = con;

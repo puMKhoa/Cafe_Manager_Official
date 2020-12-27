@@ -2,9 +2,9 @@ const express= require('express')
 const mysql = require('mysql')
 var con = mysql.createConnection({
     host: "localhost",
-    user: "khoaf",
-    database:'BusinessManagementDB',
-    password: "Passworldla1"
+    user: "root",
+    database:"businessmanagementdb",
+    password: ""
   });
   
   con.connect((err)=>{

@@ -63,7 +63,7 @@ const Employees = () => {
         }
         getData();
       }, []);
-    
+  
     // Hook and function set show and hide Icon Action
     const [openSpeedDial, setOpenSpeedDial] = useState(false);
     const handleOpenSpeedDial = () => {
@@ -158,7 +158,7 @@ const Employees = () => {
                 salary_day : salaryDaily
               })
               .then(function (response) {
-                console.log(response);
+                setRows(response.data.message[0]);
               })
               .catch(function (error) {
                 window.alert("Error: " + error.message)
@@ -169,7 +169,6 @@ const Employees = () => {
           }
           getData();
           handleCloseDialogAdd();
-          window.location.reload();
         } else {
           window.alert("Invalid parameters");
         }
@@ -182,7 +181,7 @@ const Employees = () => {
                 id: id
               })
               .then(function (response) {
-                console.log(response);
+                setRows(response.data.message[0]);
               })
               .catch(function (error) {
                 window.alert("Error: " + error.message)
@@ -193,7 +192,6 @@ const Employees = () => {
           }
           getData();
           handleCloseDialogDelete();
-          window.location.reload();
     }
       // Update event
     const [openDialogFormUpdate, setOpenDialogFormUpdate] = useState(false);
@@ -214,27 +212,32 @@ const Employees = () => {
     const handleActionUpdateFindById = () => {
         function getData() {
             try {
+              if(birthDate === "")
+                setBirthDate('1980-01-01');
+              if(salaryDaily === "")
+                setSalaryDaily(0);
              axios.post('http://localhost:3001/data/User_employee/Render_Employee', {
                 id: id
               })
               .then(function (response) {
                 // setDataToUpdate(response.data);
-                console.log(response.data);
+                setDataToUpdate([...response.data]);
+                setOpenDialogFormUpdate(true);
                 // console.log(dataToUpdate[0].birth_date);
               })
               .catch(function (error) {
-                window.alert("Error: " + error.message)
+                window.alert("Error: Nobody have this ID, please check agian")
               });
             } catch (error) {
               console.error(error);
             }
           }
           getData();
-          setOpenDialogFormUpdate(true);
+          
       }
     const handleActionUpdate = () => {
         axios.post('http://localhost:3001/data/User_employee/Update', {
-          id: dataToUpdate.id,
+          id: id,
           first_name: firstName ,
           last_name: lastName ,
           birth_date: birthDate,
@@ -243,7 +246,10 @@ const Employees = () => {
           salary_day : salaryDaily
         })
         .then(function (response) {
-          console.log(response);
+          
+          setRows(response.data.message[0]);
+          handleCloseDialogUpdate();
+          handleCloseDialogFormUpdate();
         })
         .catch(function (error) {
           window.alert("Error: " + error.message)
@@ -278,7 +284,7 @@ const Employees = () => {
                                     <TableCell align="center">{row.id}</TableCell>
                                     <TableCell align="center">{row.first_name}</TableCell>
                                     <TableCell align="center">{row.last_name}</TableCell>
-                                    <TableCell align="center">{row.birth_date}</TableCell>
+                                    <TableCell align="center">{row.birth_date.split('T')[0]}</TableCell>
                                     <TableCell align="center">{row.address}</TableCell>
                                     <TableCell align="center">{row.role}</TableCell>
                                     <TableCell align="center">{row.salary_day}</TableCell>
@@ -493,7 +499,7 @@ const Employees = () => {
                             shrink: true,
                             }}
                             fullWidth
-                            defaultValue={dataToUpdate[0].birth_date}
+                            defaultValue={dataToUpdate[0].birth_date.split('T')[0]}
                             
                         />
                         <TextField
@@ -503,7 +509,6 @@ const Employees = () => {
                             id="address"
                             label="Address"
                             fullWidth
-                            // default={dataToUpdate.address}
                             defaultValue={dataToUpdate[0].address}
 
                         />

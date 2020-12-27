@@ -56,29 +56,40 @@ const Menu = () => {
         //updates
     const [showDialogUpdate, setShowDialogUpdate] = useState(false);
     const closeDialogUpdate = () => {setShowDialogUpdate(false);}
+    const [dataToUpdate, setDataToUpdate] = useState([
+        {
+            item_name: '', 
+            item_price: '', 
+            urlImg: ''
+        }
+    ]);
     const handleClickOpenDialogUpdate = () => {
         setShowDialogUpdate(true);
     }
     const handleClickCloseDialogUpdate = () => {
         setShowDialogUpdate(false);
     }
+
     const handleClickOpenFormUpdate =() => {
-        try {
-            Axios.post('http://localhost:3001/Menu_item/Render_Employee', {
+       
+        async function checkItem(){
+            if(price === ''){
+                setPrice(0);
+            }
+            await Axios.post('http://localhost:3001/Menu_item/check_Item/', {
                 id: id
              })
              .then(function (response) {
-                console.log(response);
-                window.location.reload();      
+                setDataToUpdate([...response.data]); 
+                setOpenFormUpdate(true);
+
              })
              .catch(function (error) {
                window.alert("Error: " + error.message)
              });
-           } catch (error) {
-             window.location.alert(error);
-           }
+        }
+        checkItem();
         handleClickCloseDialogUpdate();
-        setOpenFormUpdate(true);
     }
     const [openFormUpdate, setOpenFormUpdate] = useState(false);
     const handleClickCloseFormUpdate = () => {setOpenFormUpdate(false);}
@@ -104,14 +115,13 @@ const Menu = () => {
     const submitAdd = () => {
         try {
             Axios.post('http://localhost:3001/Menu_item/Insert_Menu/', {
-                id: id,
                name: name,
                price: price,
                urlImg: urlImg
              })
              .then(function (response) {
-                console.log(response);
-                window.location.reload(); 
+                setData(response.data[0]);
+                handleClickCloseDialogAdd();
              })
              .catch(function (error) {
                window.alert("Error: " + error.message)
@@ -122,7 +132,23 @@ const Menu = () => {
     }
 
     const submitUpdate = () => {
-        
+        try {
+            Axios.post('http://localhost:3001/Menu_item/Update_Menu/', {
+                id: id,
+               name: name,
+               price: price,
+               urlImg: urlImg
+             })
+             .then(function (response) {
+                setData(response.data[0]);
+                handleClickCloseFormUpdate();
+             })
+             .catch(function (error) {
+               window.alert("Error: " + error.message)
+             });
+           } catch (error) {
+             window.location.alert(error);
+           }
     }
     const submitDelete = () => {
         try {
@@ -171,8 +197,9 @@ const Menu = () => {
     const onChangeName = (e) => {setName(e.target.value);};
     const [price, setPrice] = useState('');
     const onChangePrice = (e) => {setPrice(e.target.value);};
+    // eslint-disable-next-line no-unused-vars
     const [urlImg, seturlImg] = useState('');
-    const onChangeUrlImg = (e) => {setPrice(e.target.value);};
+    const onChangeUrlImg = (e) => {seturlImg(e.target.value);};
     return (
         <>
         <Typography  align="center" variant="h4" paragraph>
@@ -181,7 +208,7 @@ const Menu = () => {
         <div className='menu'>
             
         {data.map((item) => (
-            <Card className={classes.root}>
+            <Card className={classes.root+" "+ 'card-menu'}>
             <CardActionArea>
                 <CardMedia
                 className={classes.media}
@@ -190,7 +217,7 @@ const Menu = () => {
                 />
                 <CardContent>
                 <Typography gutterBottom variant="h6" component="h2">
-                    {item.item_name}
+                {item.id}. {item.item_name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     Price: ${item.item_price}
@@ -254,7 +281,7 @@ const Menu = () => {
                     <TextField 
                         onChange={onChangeName}
                         required
-                        autoFocusss
+                        autoFocus
                         margin="dense"
                         id="name"
                         label="Name"
@@ -339,7 +366,7 @@ const Menu = () => {
                 </DialogActions>
             </Dialog>
         
-
+        {openFormUpdate ?     
         <Dialog open={openFormUpdate} onClose={handleClickCloseFormUpdate} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Update</DialogTitle>
             <DialogContent>
@@ -351,7 +378,7 @@ const Menu = () => {
                     id="name"
                     label="Name"
                     fullWidth
-                    // defaultValue={}
+                    defaultValue={dataToUpdate[0].item_name}
                 />
                 <TextField 
                     onChange={onChangePrice}
@@ -361,16 +388,16 @@ const Menu = () => {
                     id="price"
                     label="Price"
                     fullWidth
-                    // defaultValue={}
+                    defaultValue={dataToUpdate[0].item_price}
                 />
                 <TextField 
-                        onChange={onChangeUrlImg}
-                        required
-                        margin="dense"
-                        id="urlImg"
-                        label="Background"
-                        fullWidth
-                    // defaultValue={}
+                    onChange={onChangeUrlImg}
+                    required
+                    margin="dense"
+                    id="urlImg"
+                    label="Background"
+                    fullWidth
+                    defaultValue={dataToUpdate[0].urlImg}
                     />
             </DialogContent>
             <DialogActions>
@@ -382,6 +409,8 @@ const Menu = () => {
                 </Button>
             </DialogActions>
         </Dialog>
+        : null
+        }
         </div>
         </>
     )

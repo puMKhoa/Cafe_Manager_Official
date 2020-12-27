@@ -1,7 +1,7 @@
 
 .menu{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -9,3 +9,6 @@
     justify-content: space-between;
 }
 
+.card-menu {
+    width: 324px;
+}

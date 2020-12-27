@@ -3,7 +3,7 @@ var router = express.Router();
 const con = require('../connection');
 
 router.get('/User_employee' , (req, res)=>{
-    var sql = "SELECT * FROM BusinessManagementDB.Employees";
+    var sql = "SELECT * FROM `businessmanagementdb`.`employees`";
     con.query(sql, (err ,  results)=>{
         if (err) throw err;
         res.send(results);
@@ -28,7 +28,7 @@ router.post('/User_employee/insert' , (req, res)=>{
                     res.send(err.message)
                 }
                 else{
-                    res.send({message:"them thong tin thanh cong"})
+                    res.send({message: results})
                 }
             })
         }catch(e){
@@ -47,7 +47,7 @@ router.post('/User_employee/Delete' , (req, res)=>{
             if (err) res.send({message:"xoa khong thanh cong"});
             // res.send(results);
             else{
-                res.send({message:"da xoa thanh cong nhan vien"});
+                res.send({message: results})
             }
         })
         
@@ -82,11 +82,11 @@ router.post('/User_employee/Update' , (req, res)=>{
             UP_salary_day: req.body.salary_day
         }
         var sql = "call UP_value(?,?,?,?,?,?,?)";
-        con.query(sql , [UPdate_Employee.id , UPdate_Employee.UP_first_name,UPdate_Employee.UP_last_name ,UPdate_Employee.UP_address,UPdate_Employee.UP_birth_date,UPdate_Employee.UP_roles,UPdate_Employee.UP_salary_day], (err, results)=>{
-            if (err) res.send({message : "success"});
+        con.query(sql , [UPdate_Employee.UP_id , UPdate_Employee.UP_first_name,UPdate_Employee.UP_last_name ,UPdate_Employee.UP_address,UPdate_Employee.UP_birth_date,UPdate_Employee.UP_roles,UPdate_Employee.UP_salary_day], (err, results)=>{
+            if (err) res.send(err);
             else
             {
-                res.send({message:"cap nhat thanh cong nhan vien"})
+                res.send({message: results});
             }
         })
     } catch (error) {

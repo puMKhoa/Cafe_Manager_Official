@@ -61,14 +61,14 @@ router.post('/Delete_Menu/' , (req , res)=>{
 })
 router.post('/Insert_Menu/' , (req , res)=>{
     try {
-        let sql ="call Insert_value_menu(?, ? , ? , ? );";
+        let sql ="call Insert_value_menu(? , ? , ? );";
         let Item_IN_Update = {
-            IN_item_id: req.body.id,
             IN_item_name: req.body.name,
             In_item_Price: req.body.price,
             IN_item_UrlImg: req.body.urlImg,
         }
-        con.query(sql ,[Item_IN_Update.IN_item_id , Item_IN_Update.IN_item_name , Item_IN_Update.In_item_Price, Item_IN_Update.IN_item_UrlImg] , (err , results)=>{
+        con.query(sql ,[Item_IN_Update.IN_item_name , Item_IN_Update.In_item_Price, Item_IN_Update.IN_item_UrlImg] , 
+            (err , results)=>{
             if(err) res.send({message:err.message})
             else    
                 res.send(results)
